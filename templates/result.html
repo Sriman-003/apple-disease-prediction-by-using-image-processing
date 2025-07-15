@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Background Image */
+        body {
+            background: url("{{ url_for('static', filename='images/background.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Blurred Background Overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px); /* Slight blur for a soft effect */
+            background: rgba(0, 0, 0, 0.3); /* Reduced opacity for lighter overlay */
+            z-index: -1;
+        }
+
+        /* Title */
+        .main-title {
+            font-size: clamp(44px, 5vw, 72px);
+            font-weight: 900;
+            color: #f8f8f8; /* Off-white for better contrast */
+            text-transform: uppercase;
+            padding: 20px 0;
+            text-align: center;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); /* Improved text shadow */
+            letter-spacing: 2px;
+        }
+
+        /* Prediction Result Section */
+        .prediction-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1); /* Lighter glass effect for better contrast */
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 900px; /* Increased max-width for better spacing */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            margin-top: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Predicted Image */
+        .predicted-image {
+            max-width: 320px;
+            max-height: 320px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            margin-right: 40px; /* Space between image and text */
+        }
+
+        /* Prediction Text */
+        .prediction-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .prediction-text p {
+            font-size: 24px;
+            color: #f8f8f8; /* Slightly darker white for better readability */
+            font-weight: 700; /* Increased font weight for better visibility */
+            line-height: 1.8;
+            margin: 20px 0; /* Increased margin for better spacing */
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); /* Improved text shadow */
+        }
+
+        /* Bold Important Details */
+        .prediction-text strong {
+            font-size: 28px;
+            color: #ffeb3b;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); /* Improved text shadow */
+        }
+
+        /* Back Button */
+        .back-btn {
+            background: linear-gradient(135deg, #fd2b2b, #fd2b2b);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 25px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 10px 30px rgba(48, 47, 47, 0.5);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Improved text shadow */
+        }
+
+        .back-btn:hover {
+            transform: scale(1.07);
+            background: linear-gradient(135deg, #fd2b2b, #fd2b2b);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .prediction-container {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px;
+            }
+
+            .predicted-image {
+                max-width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .prediction-text {
+                text-align: center;
+            }
+
+            .prediction-text p {
+                font-size: 22px; /* Slightly smaller font size for mobile */
+                margin: 15px 0; /* Adjusted margin for mobile */
+            }
+
+            .prediction-text strong {
+                font-size: 26px; /* Slightly smaller font size for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-title">Prediction Result</div>
+    <div class="prediction-container">
+        <img src="{{ url_for('static', filename='uploads/' + filename) }}" class="predicted-image" alt="Predicted Image">
+        <div class="prediction-text">
+            <p><strong>PREDICTION:</strong> {{ prediction }}</p>
+            <p><strong>CONFIDENCE:</strong> {{ confidence | int }}%</p>
+            <p><strong>DESCRIPTION:</strong> {{ description }}</p>
+            <p><strong>PESTICIDE SUGGESTION:</strong> {{ pesticide }}</p>
+        </div>
+    </div>
+    <button class="back-btn" onclick="window.location.href='/'">Back to Home</button>
+</body>
+</html>
